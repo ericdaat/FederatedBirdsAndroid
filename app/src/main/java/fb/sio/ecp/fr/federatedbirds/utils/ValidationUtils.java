@@ -5,6 +5,10 @@ package fb.sio.ecp.fr.federatedbirds.utils;
  */
 public class ValidationUtils {
 
+    /**
+     * tools to check login and password syntax with regular expressions
+     */
+
     private static final String LOGIN_PATTERN = "^[A-Za-z0-9_-]{4,12}$";
     private static final String PASSWORD_PATTERN = "^\\w{4,12}$";
 

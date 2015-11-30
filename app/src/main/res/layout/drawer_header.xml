@@ -5,5 +5,4 @@
     android:layout_height="100dp"
     android:background="@color/colorPrimary">
 
-
 </LinearLayout>

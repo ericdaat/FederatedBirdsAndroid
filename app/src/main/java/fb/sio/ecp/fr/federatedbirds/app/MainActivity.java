@@ -1,13 +1,20 @@
 package fb.sio.ecp.fr.federatedbirds.app;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,82 +24,99 @@ import fb.sio.ecp.fr.federatedbirds.R;
 import fb.sio.ecp.fr.federatedbirds.auth.TokenManager;
 import fb.sio.ecp.fr.federatedbirds.model.Message;
 
-public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Message>>{
+public class MainActivity extends AppCompatActivity {
 
-    private static final int LOADER_MESSAGES = 0;
+    private ActionBarDrawerToggle mDrawerToggle;
 
-    private MessagesAdapter mMessagesAdapter;
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        /**
+         * If user doesn't have a token, he's not logged in so
+         * he won't access the MainActivity right away. He
+         * must log in first.
+         */
         if (TokenManager.getUserToken(this) == null) {
+            //starting LoginActivity
             startActivity(new Intent(this, LoginActivity.class));
+            /**
+             * finish() cleans the MainActivity from history
+             * so the user can't go back there not logged in
+             */
             finish();
         }
-
+        /**
+         * Default behaviour : the user will see activity_main layout
+         */
         setContentView(R.layout.activity_main);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        /**
+         * Attaching the navigation side bar, and listening to its events
+         */
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public void onClick(View v) {
-                Toast.makeText(
-                        MainActivity.this,
-                        "Clicked",
-                        Toast.LENGTH_SHORT
-                ).show();
+            public boolean onNavigationItemSelected(MenuItem item) {
+                /**
+                 * switch to which item in the navigation bar is selected
+                 * returning true acknowledges the triggering
+                 */
+
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        return true;
+                    case R.id.settings:
+                        /**
+                         * If the user clicks on settings, then launch the settings activity
+                         */
+                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        return true;
+                }
+                return false;
             }
+
         });
 
-        RecyclerView listView = (RecyclerView) findViewById(R.id.list);
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        mMessagesAdapter = new MessagesAdapter();
-        listView.setAdapter(mMessagesAdapter);
+        if (savedInstanceState == null) {
+            HomeFragment fragment = new HomeFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_container, fragment)
+                    .commit();
+        }
 
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        /**For compatibility reasons use getSupportLoaderManager instead
-         * of getLoaderManager. This will manage our downloads.
-         */
-        getSupportLoaderManager().initLoader(
-                LOADER_MESSAGES,
-                null,
-                this);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
+    /**
+     * Attaching the top bar since we modified our theme
+     * and the toolbar is no longer loaded by default.
+     */
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
+    public void setSupportActionBar(Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                (DrawerLayout) findViewById(R.id.drawer),
+                toolbar,
+                R.string.open_menu,
+                R.string.close_menu
+        );
+        mDrawerToggle.syncState();
     }
 
     @Override
-    public Loader<List<Message>> onCreateLoader(int id, Bundle args) {
-        return new MessagesLoader(this,null);
+    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
+        mDrawerToggle.syncState();
     }
 
-    @Override
-    public void onLoadFinished(Loader<List<Message>> loader, List<Message> messages) {
-        mMessagesAdapter.setMessages(messages);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Message>> loader) {
-        //
-    }
 }

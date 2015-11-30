@@ -15,6 +15,7 @@ import fb.sio.ecp.fr.federatedbirds.model.Message;
  */
 public class MessagesLoader extends AsyncTaskLoader<List<Message>>{
 
+
     private List<Message> mResult;
     private Long mUserId;
 
@@ -25,6 +26,12 @@ public class MessagesLoader extends AsyncTaskLoader<List<Message>>{
 
     @Override
     protected void onStartLoading() {
+        /**
+         * If mResult is not empty, then we already loaded results, so we don't
+         * need to get them again
+         * If it is, then load the results by calling deliverResult(mResult)
+         * Note : we must use forceLoad() to get the results
+         */
         super.onStartLoading();
         if (mResult != null){
             deliverResult(mResult);
@@ -35,6 +42,9 @@ public class MessagesLoader extends AsyncTaskLoader<List<Message>>{
 
     @Override
     public List<Message> loadInBackground() {
+        /**
+         * loadInBackground handles long loading in an asynchronous way
+         */
         try {
             return ApiClient.getInstance(getContext()).getMessages(mUserId);
         } catch (IOException e) {
@@ -45,6 +55,11 @@ public class MessagesLoader extends AsyncTaskLoader<List<Message>>{
 
     @Override
     public void deliverResult(List<Message> data) {
+        /**
+         * This method implements super.deliverResult
+         * and is used to store the results in a List passed
+         * as a parameter
+         */
         mResult = data;
         super.deliverResult(data);
     }
