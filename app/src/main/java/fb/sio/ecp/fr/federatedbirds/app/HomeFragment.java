@@ -38,7 +38,9 @@ public class HomeFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         /**
          * The system calls this when it's time for the fragment to draw its user
          * interface for the first time. To draw a UI for your fragment,

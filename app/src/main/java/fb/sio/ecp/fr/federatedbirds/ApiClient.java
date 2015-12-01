@@ -120,6 +120,7 @@ public class ApiClient {
         JsonObject body = new JsonObject();
         body.addProperty("login",login);
         body.addProperty("password",password);
-        return post("auth/token",body,String.class);
+        //return post("auth/token",body,String.class);
+        return "bla";
     }
 }

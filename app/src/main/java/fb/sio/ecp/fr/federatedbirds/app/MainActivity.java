@@ -91,9 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.main_container, fragment)
                     .commit();
         }
-
     }
-
 
     /**
      * Attaching the top bar since we modified our theme

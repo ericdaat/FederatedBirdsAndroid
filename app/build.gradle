@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "fb.sio.ecp.fr.federatedbirds"
+        applicationId "fr.sio.ecp.fr.federatedbirds"
         minSdkVersion 9 //compatible from version 9
         /** targetSdkVersion means it has been tested on the version 23. Doesn't mean
          * it won't work with newer versions */
@@ -31,5 +31,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:preference-v7:23.1.1'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.4'
 }

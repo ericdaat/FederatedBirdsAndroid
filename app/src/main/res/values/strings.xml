@@ -12,4 +12,5 @@
     <string name="open_menu">Ouvrir Menu</string>
     <string name="close_menu">Fermer Menu</string>
     <string name="logout">Déconnexion</string>
+    <string name="followed">Suivis</string>
 </resources>
