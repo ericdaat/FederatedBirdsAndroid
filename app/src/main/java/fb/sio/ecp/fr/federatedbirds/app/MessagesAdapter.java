@@ -67,8 +67,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
              * and the text from their id.
              */
             super(itemView);
-            mUserAvatarView = (ImageView) itemView.findViewById(R.id.avatar);
-            mTextView = (TextView) itemView.findViewById(R.id.text);
+            mUserAvatarView = (ImageView) itemView.findViewById(R.id.message_avatar);
+            mTextView = (TextView) itemView.findViewById(R.id.message_text);
         }
     }
 

@@ -104,6 +104,10 @@ public class ApiClient {
         return get(path,type.getType());
     }
 
+    public List<User> getFollowedUsers(Long userId) {
+        return null;
+    }
+
     public User getUser(long id) throws IOException{
         /**
          * return a user by its id
@@ -121,6 +125,6 @@ public class ApiClient {
         body.addProperty("login",login);
         body.addProperty("password",password);
         //return post("auth/token",body,String.class);
-        return "bla";
+        return "token";
     }
 }

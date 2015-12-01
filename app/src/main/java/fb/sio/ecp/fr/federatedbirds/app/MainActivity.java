@@ -73,10 +73,13 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.home:
                         return true;
                     case R.id.settings:
-                        /**
-                         * If the user clicks on settings, then launch the settings activity
-                         */
+                         //If the user clicks on settings, then launch the settings activity
                         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.followed:
+                        //If the user clicks on settings, then launch the settings activity
+                        intent = new Intent(MainActivity.this, UsersFollowedActivity.class);
                         startActivity(intent);
                         return true;
                 }

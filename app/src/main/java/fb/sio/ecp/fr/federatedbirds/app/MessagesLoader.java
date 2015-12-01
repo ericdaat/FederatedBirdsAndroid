@@ -15,7 +15,6 @@ import fb.sio.ecp.fr.federatedbirds.model.Message;
  */
 public class MessagesLoader extends AsyncTaskLoader<List<Message>>{
 
-
     private List<Message> mResult;
     private Long mUserId;
 

@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         //attach a recycler view which is the view containing the messages
-        RecyclerView listView = (RecyclerView) view.findViewById(R.id.list);
+        RecyclerView listView = (RecyclerView) view.findViewById(R.id.messages_list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         mMessagesAdapter = new MessagesAdapter();
         listView.setAdapter(mMessagesAdapter);
