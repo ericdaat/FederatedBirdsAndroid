@@ -43,6 +43,7 @@ public class TokenManager {
         SharedPreferences sp = context.getSharedPreferences(AUTH_PREFERENCES, Context.MODE_PRIVATE);
         sp.edit().clear().apply();
         Log.i(TokenManager.class.getSimpleName(), "Auth preferences cleared");
+
     }
 
 }

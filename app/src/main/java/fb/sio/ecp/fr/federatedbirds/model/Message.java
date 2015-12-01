@@ -10,5 +10,4 @@ public class Message {
     public String text;
     public Date date;
     public User user;
-
 }

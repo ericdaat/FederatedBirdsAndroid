@@ -26,7 +26,7 @@ import fb.sio.ecp.fr.federatedbirds.model.User;
 public class ApiClient {
 
     private static ApiClient mInstance;
-    private static final String API_BASE = "localhost:8080/";
+    private static final String API_BASE = "http://10.0.2.2:8080/";
 
 
     /**
@@ -51,31 +51,25 @@ public class ApiClient {
     }
 
     private <T> T get(String path, Type type) throws IOException {
-        return method("GET", null, path, type);
+        return method("GET", path, null, type);
     }
 
     private <T> T post(String path, Object body, Type type) throws IOException {
-        return method("POST",body,path,type);
+        return method("POST",path,body,type);
     }
 
-    private <T> T method(String method, Object body, String path, Type type) throws IOException {
-        /**
-         * This method can either be a POST or a GET method
-         * If it's a POST, send the body first and then wait for the response
-         * to return it as a Json object
-         * If it's a GET, just read the response
-         */
+    private <T> T method(String method, String path, Object body, Type type) throws IOException {
         String url = API_BASE + path;
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod(method);
         String token = TokenManager.getUserToken(mContext);
         if (token != null) {
-            connection.addRequestProperty("Authorization","Bearer " + token);
+            connection.addRequestProperty("Authorization", "Bearer " + token);
         }
-        if (body != null){
+        if (body != null) {
             Writer writer = new OutputStreamWriter(connection.getOutputStream());
             try {
-                new Gson().toJson(body,writer);
+                new Gson().toJson(body, writer);
             } finally {
                 writer.close();
             }
@@ -124,7 +118,6 @@ public class ApiClient {
         JsonObject body = new JsonObject();
         body.addProperty("login",login);
         body.addProperty("password",password);
-        //return post("auth/token",body,String.class);
-        return "token";
+        return post("auth/token",body,String.class);
     }
 }

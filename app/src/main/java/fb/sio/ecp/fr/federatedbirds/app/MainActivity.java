@@ -42,15 +42,9 @@ public class MainActivity extends AppCompatActivity {
          * he won't access the MainActivity right away. He
          * must log in first.
          */
-        if (TokenManager.getUserToken(this) == null) {
-            //starting LoginActivity
-            startActivity(new Intent(this, LoginActivity.class));
-            /**
-             * finish() cleans the MainActivity from history
-             * so the user can't go back there not logged in
-             */
-            finish();
-        }
+
+        checkUserLogin();
+
         /**
          * Default behaviour : the user will see activity_main layout
          */
@@ -118,6 +112,19 @@ public class MainActivity extends AppCompatActivity {
     public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
         mDrawerToggle.syncState();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        checkUserLogin();
+    }
+
+    private void checkUserLogin() {
+        if (TokenManager.getUserToken(this) == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 
 }

@@ -5,7 +5,7 @@
     <string name="username">Username</string>
     <string name="invalid_format">Invalid Format</string>
     <string name="invalid_password">Invalid Password</string>
-    <string name="login_failed">Login Failed</string>
+    <string name="login_failed">La connexion a échoué</string>
     <string name="home">Home</string>
     <string name="settings">Settings</string>
     <string name="login_progress">Connexion en cours</string>

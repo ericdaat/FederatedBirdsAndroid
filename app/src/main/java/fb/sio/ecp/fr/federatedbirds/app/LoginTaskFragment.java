@@ -2,7 +2,6 @@ package fb.sio.ecp.fr.federatedbirds.app;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -56,29 +55,30 @@ public class LoginTaskFragment extends DialogFragment {
         return dialog;
     }
 
-    private class LoginTask extends AsyncTask<String, Void, String> {
+    private class LoginTask extends AsyncTask<Void, Void, String> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(Void... params) {
             try {
-                String login = getArguments().getString(ARG_LOGIN);
-                String password = getArguments().getString(ARG_PASSWORD);
-                return ApiClient.getInstance(getContext()).login(login,password);
+                String login = getArguments().getString("login");
+                String password = getArguments().getString("password");
+                return ApiClient.getInstance(getContext()).login(login, password);
             } catch (IOException e) {
-                Log.e(LoginActivity.class.getSimpleName(), "Login Failed", e);
+                Log.e(LoginActivity.class.getSimpleName(), "Login failed", e);
                 return null;
             }
         }
 
         @Override
         protected void onPostExecute(String token) {
-            if (token != null){
+            if (token != null) {
                 TokenManager.setUserToken(getContext(), token);
                 getActivity().finish();
                 startActivity(MainActivity.newIntent(getContext()));
             } else {
                 Toast.makeText(getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
             }
+            dismiss();
         }
     }
 }
