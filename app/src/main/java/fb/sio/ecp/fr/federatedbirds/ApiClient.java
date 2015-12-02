@@ -26,9 +26,8 @@ import fb.sio.ecp.fr.federatedbirds.model.User;
 public class ApiClient {
 
     private static ApiClient mInstance;
-    private static final String API_BASE = "http://10.0.2.2:8080/";
-
-
+    private static final String API_BASE = "http://10.0.2.2:9000/";
+    
     /**
      * We need to have a way to get the context of the application
      * We use a singleton pattern by having it stored as a private field
@@ -96,6 +95,12 @@ public class ApiClient {
             path = "users/" + userId + "/messages";
         }
         return get(path,type.getType());
+    }
+
+    public Message postMessage(String text) throws IOException {
+        Message message = new Message();
+        message.text = text;
+        return post("messages",message,Message.class);
     }
 
     public List<User> getFollowedUsers(Long userId) {

@@ -13,4 +13,10 @@
     <string name="close_menu">Fermer Menu</string>
     <string name="logout">Déconnexion</string>
     <string name="followed">Suivis</string>
+    <string name="new_message">Nouveau Message</string>
+    <string name="post">Envoyer</string>
+    <string name="cancel">Annuler</string>
+    <string name="empty_message_error">Message vide</string>
+    <string name="progress">En Cours</string>
+    <string name="message_failed">envoi a échoué</string>
 </resources>
