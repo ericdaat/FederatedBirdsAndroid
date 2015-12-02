@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.DrawerLayout;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Attaching the navigation side bar, and listening to its events
          */
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -65,18 +66,24 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.home:
+                        Fragment fragment = new HomeFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container, fragment)
+                                .commit();
+                        return true;
+                    case R.id.followed:
+                        fragment = new UsersFollowedFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container,fragment)
+                                .commit();
                         return true;
                     case R.id.settings:
                          //If the user clicks on settings, then launch the settings activity
                         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         return true;
-                    case R.id.followed:
-                        //If the user clicks on settings, then launch the settings activity
-                        intent = new Intent(MainActivity.this, UsersFollowedActivity.class);
-                        startActivity(intent);
-                        return true;
                 }
+                ((DrawerLayout) findViewById(R.id.drawer)).closeDrawer(navigationView);
                 return false;
             }
 

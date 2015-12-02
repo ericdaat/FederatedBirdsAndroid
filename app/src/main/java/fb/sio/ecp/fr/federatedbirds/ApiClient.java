@@ -27,7 +27,7 @@ public class ApiClient {
 
     private static ApiClient mInstance;
     private static final String API_BASE = "http://10.0.2.2:9000/";
-    
+
     /**
      * We need to have a way to get the context of the application
      * We use a singleton pattern by having it stored as a private field
@@ -94,7 +94,7 @@ public class ApiClient {
         } else {
             path = "users/" + userId + "/messages";
         }
-        return get(path,type.getType());
+        return get(path, type.getType());
     }
 
     public Message postMessage(String text) throws IOException {
@@ -103,14 +103,19 @@ public class ApiClient {
         return post("messages",message,Message.class);
     }
 
-    public List<User> getFollowedUsers(Long userId) {
-        return null;
+    public List<User> getFollowedUsers(Long userId) throws IOException {
+        String id;
+        if (userId !=null) {
+            id = Long.toString(userId);
+        } else {
+            id = "me";
+        }
+        TypeToken<List<User>> type = new TypeToken<List<User>>(){};
+        return get("users",type.getType());
+        //return get("users/" + id + "/followed",type.getType());
     }
 
     public User getUser(long id) throws IOException{
-        /**
-         * return a user by its id
-         */
         return get("users" + id,User.class);
     }
 
