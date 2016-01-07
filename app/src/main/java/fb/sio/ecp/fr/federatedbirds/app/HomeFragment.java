@@ -1,5 +1,7 @@
 package fb.sio.ecp.fr.federatedbirds.app;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +30,7 @@ public class HomeFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<List<Message>> {
 
     private static final int LOADER_MESSAGES = 0;
+    private static final int REQUEST_POST_MESSAGE = 0;
 
     private MessagesAdapter mMessagesAdapter;
 
@@ -70,13 +73,27 @@ public class HomeFragment extends Fragment
         //attach a floating action button
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 PostMessageFragment postFragment = new PostMessageFragment();
+                postFragment.setTargetFragment(HomeFragment.this, REQUEST_POST_MESSAGE);
                 postFragment.show(getFragmentManager(),"post_dialog");
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //refresh screen after posting a message
+        switch (requestCode){
+            case REQUEST_POST_MESSAGE:
+                if (resultCode == Activity.RESULT_OK){
+                    //delete existing loader to download new results
+                    getLoaderManager().restartLoader(LOADER_MESSAGES,null,this);
+                }
+                return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

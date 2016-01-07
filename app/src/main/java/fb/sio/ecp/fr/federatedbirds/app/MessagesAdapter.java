@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.R;
@@ -49,6 +51,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
          */
         Message message = mMessages.get(position);
         holder.mTextView.setText(message.text);
+        Picasso
+                .with(holder.mUserAvatarView.getContext())
+                .load(message.user.avatar)
+                .into(holder.mUserAvatarView);
     }
 
     @Override

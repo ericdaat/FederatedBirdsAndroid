@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.R;
@@ -15,13 +17,13 @@ import fb.sio.ecp.fr.federatedbirds.model.User;
 /**
  * Created by Eric on 01/12/15.
  */
-public class UsersFollowedAdapter
-        extends RecyclerView.Adapter<UsersFollowedAdapter.UsersFollowedViewHolder> {
+public class UsersAdapter
+        extends RecyclerView.Adapter<UsersAdapter.UsersFollowedViewHolder> {
 
-    private List<User> mFollowedUsers;
+    private List<User> mUsers;
 
-    public void setFollowedUsers (List<User> followedUsers){
-        mFollowedUsers = followedUsers;
+    public void setUsers(List<User> users){
+        mUsers = users;
         notifyDataSetChanged();
     }
 
@@ -35,24 +37,29 @@ public class UsersFollowedAdapter
 
     @Override
     public void onBindViewHolder(UsersFollowedViewHolder holder, int position) {
-        User user = mFollowedUsers.get(position);
-        holder.mUserNameTextView.setText(user.login);
+        User user = mUsers.get(position);
+
+        Picasso.with(holder.mAvatarView.getContext())
+                .load(user.avatar)
+                .into(holder.mAvatarView);
+
+        holder.mUserNameView.setText(user.login);
     }
 
     @Override
     public int getItemCount() {
-        return mFollowedUsers != null ? mFollowedUsers.size() : 0;
+        return mUsers != null ? mUsers.size() : 0;
     }
 
 
     public class UsersFollowedViewHolder extends RecyclerView.ViewHolder{
-        private ImageView mUserAvatarView;
-        private TextView mUserNameTextView;
+        private ImageView mAvatarView;
+        private TextView mUserNameView;
 
         public UsersFollowedViewHolder(View itemView) {
             super(itemView);
-            mUserAvatarView = (ImageView) itemView.findViewById(R.id.followed_avatar);
-            mUserNameTextView = (TextView) itemView.findViewById(R.id.followed_username);
+            mAvatarView = (ImageView) itemView.findViewById(R.id.avatar);
+            mUserNameView = (TextView) itemView.findViewById(R.id.username);
         }
     }
 

@@ -1,5 +1,6 @@
 package fb.sio.ecp.fr.federatedbirds.app;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -52,6 +53,9 @@ public class PostMessageFragment extends DialogFragment {
                         //post is an asynchronous operation
                         PostTaskFragment taskFragment = new PostTaskFragment();
                         taskFragment.setArgument(message);
+                        taskFragment.setTargetFragment(
+                                getTargetFragment(), getTargetRequestCode()
+                        );
                         taskFragment.show(getFragmentManager(),"post_progress");
                     }
                 })
@@ -106,7 +110,11 @@ public class PostMessageFragment extends DialogFragment {
             @Override
             protected void onPostExecute(Message message) {
                 if (message != null) {
-
+                    getTargetFragment().onActivityResult(
+                            getTargetRequestCode(),
+                            Activity.RESULT_OK,
+                            null
+                    );
 
                 } else {
                     Toast.makeText(getContext(), R.string.message_failed, Toast.LENGTH_SHORT).show();

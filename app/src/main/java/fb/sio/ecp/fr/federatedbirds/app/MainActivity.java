@@ -3,26 +3,17 @@ package fb.sio.ecp.fr.federatedbirds.app;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PersistableBundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
-import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.R;
 import fb.sio.ecp.fr.federatedbirds.auth.TokenManager;
-import fb.sio.ecp.fr.federatedbirds.model.Message;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Attaching the navigation side bar, and listening to its events
          */
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -65,22 +56,29 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.home:
+                        Fragment fragment = new HomeFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container, fragment)
+                                .commit();
+                        return true;
+                    case R.id.followed:
+                        fragment = new FollowedFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container, fragment)
+                                .commit();
                         return true;
                     case R.id.settings:
-                         //If the user clicks on settings, then launch the settings activity
+                        //If the user clicks on settings, then launch the settings activity
                         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         return true;
-                    case R.id.followed:
-                        //If the user clicks on settings, then launch the settings activity
-                        intent = new Intent(MainActivity.this, UsersFollowedActivity.class);
-                        startActivity(intent);
-                        return true;
                 }
+                ((DrawerLayout) findViewById(R.id.drawer)).closeDrawer(navigationView);
                 return false;
             }
-
         });
+
+
 
         if (savedInstanceState == null) {
             HomeFragment fragment = new HomeFragment();

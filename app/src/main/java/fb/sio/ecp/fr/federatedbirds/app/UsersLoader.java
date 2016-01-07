@@ -2,7 +2,9 @@ package fb.sio.ecp.fr.federatedbirds.app;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.ApiClient;
@@ -11,12 +13,12 @@ import fb.sio.ecp.fr.federatedbirds.model.User;
 /**
  * Created by Eric on 01/12/15.
  */
-public class UsersFollowedLoader extends AsyncTaskLoader<List<User>> {
+public abstract class UsersLoader extends AsyncTaskLoader<List<User>> {
 
     private List<User> mResult;
     private Long mUserId;
 
-    public UsersFollowedLoader(Context context, Long userId) {
+    public UsersLoader(Context context, Long userId) {
         super(context);
         mUserId = userId;
     }
@@ -33,8 +35,15 @@ public class UsersFollowedLoader extends AsyncTaskLoader<List<User>> {
 
     @Override
     public List<User> loadInBackground() {
-        return ApiClient.getInstance(getContext()).getFollowedUsers(mUserId);
+        try {
+            return getUsers(mUserId);
+        } catch (IOException e) {
+            Log.e("UsersLoader", "Failed to load users");
+            return null;
+        }
     }
+
+    protected abstract List<User> getUsers(Long userId) throws IOException;
 
     @Override
     public void deliverResult(List<User> data) {

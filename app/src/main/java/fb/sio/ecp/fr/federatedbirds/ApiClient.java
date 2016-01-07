@@ -25,9 +25,17 @@ import fb.sio.ecp.fr.federatedbirds.model.User;
  */
 public class ApiClient {
 
+    private static final String API_BASE = "http://10.0.2.2:8080/";
     private static ApiClient mInstance;
-    private static final String API_BASE = "http://10.0.2.2:9000/";
-    
+    private Context mContext;
+    private ApiClient(Context context){
+        /**
+         * Default constructor must be private because we don't want the user
+         * to call it, and have more than one context.
+         */
+        mContext = context.getApplicationContext();
+    }
+
     /**
      * We need to have a way to get the context of the application
      * We use a singleton pattern by having it stored as a private field
@@ -38,15 +46,6 @@ public class ApiClient {
             mInstance = new ApiClient(context);
         }
         return mInstance;
-    }
-    private Context mContext;
-
-    private ApiClient(Context context){
-        /**
-         * Default constructor must be private because we don't want the user
-         * to call it, and have more than one context.
-         */
-        mContext = context.getApplicationContext();
     }
 
     private <T> T get(String path, Type type) throws IOException {
@@ -82,36 +81,26 @@ public class ApiClient {
     }
 
     public List<Message> getMessages(Long userId) throws IOException {
-        /**
-         * get the list of messages from server
-         * if we don't specify a user, get all the messages posted
-         * else get the messages from this user
-         */
-        TypeToken<List<Message>> type = new TypeToken <List<Message>>() {};
-        String path;
-        if (userId == null){
-            path = "messages";
-        } else {
-            path = "users/" + userId + "/messages";
-        }
-        return get(path,type.getType());
+        TypeToken<List<Message>> type = new TypeToken<List<Message>>() {};
+        String path = userId == null ? "messages" : "users/" + userId + "/messages";
+        return get(path, type.getType());
     }
 
     public Message postMessage(String text) throws IOException {
         Message message = new Message();
         message.text = text;
-        return post("messages",message,Message.class);
+        return post("messages", message, Message.class);
     }
 
-    public List<User> getFollowedUsers(Long userId) {
-        return null;
+    public List<User> getUserFollowed(Long userId) throws IOException {
+        String id = userId != null ? Long.toString(userId) : "me";
+        TypeToken<List<User>> type = new TypeToken<List<User>>() {};
+        return get("users", type.getType());
+        //return get("users/" + id + "/followed", type.getType());
     }
 
-    public User getUser(long id) throws IOException{
-        /**
-         * return a user by its id
-         */
-        return get("users" + id,User.class);
+    public User getUser(long id) throws IOException {
+        return get("users/" + id, User.class);
     }
 
     public String login(String login, String password) throws IOException {

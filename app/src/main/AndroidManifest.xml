@@ -26,8 +26,6 @@
 
         <activity android:name=".app.SettingsActivity"/>
 
-        <activity android:name=".app.UsersFollowedActivity"/>
-
 
     </application>
 
