@@ -27,6 +27,7 @@ public class ApiClient {
 
     private static final String API_BASE = "http://10.0.2.2:8080/";
     private static ApiClient mInstance;
+
     private Context mContext;
     private ApiClient(Context context){
         /**
@@ -35,6 +36,7 @@ public class ApiClient {
          */
         mContext = context.getApplicationContext();
     }
+
 
     /**
      * We need to have a way to get the context of the application
@@ -91,6 +93,7 @@ public class ApiClient {
         message.text = text;
         return post("messages", message, Message.class);
     }
+
 
     public List<User> getUserFollowed(Long userId) throws IOException {
         String id = userId != null ? Long.toString(userId) : "me";

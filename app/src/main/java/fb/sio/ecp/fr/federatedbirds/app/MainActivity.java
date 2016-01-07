@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.followed:
                         fragment = new FollowedFragment();
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.main_container, fragment)
+                                .replace(R.id.main_container,fragment)
                                 .commit();
                         return true;
                     case R.id.settings:
-                        //If the user clicks on settings, then launch the settings activity
+                         //If the user clicks on settings, then launch the settings activity
                         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         return true;
