@@ -12,11 +12,17 @@
     <string name="open_menu">Ouvrir Menu</string>
     <string name="close_menu">Fermer Menu</string>
     <string name="logout">Déconnexion</string>
-    <string name="followed">Suivis</string>
+    <string name="followed">Abonnements</string>
+    <string name="followers">Abonnés</string>
     <string name="new_message">Nouveau Message</string>
     <string name="post">Envoyer</string>
     <string name="cancel">Annuler</string>
     <string name="empty_message_error">Message vide</string>
     <string name="progress">En Cours</string>
-    <string name="message_failed">envoi a échoué</string>
+    <string name="message_failed">Echec envoi</string>
+    <string name="signin">Connexion</string>
+    <string name="signup">Inscription</string>
+    <string name="create_account">Créer le compte</string>
+    <string name="email">Adresse Email</string>
+    <string name="creation_failed">Echec de création du compte</string>
 </resources>

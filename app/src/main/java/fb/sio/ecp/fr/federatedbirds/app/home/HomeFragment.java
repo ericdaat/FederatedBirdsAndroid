@@ -1,4 +1,4 @@
-package fb.sio.ecp.fr.federatedbirds.app;
+package fb.sio.ecp.fr.federatedbirds.app.home;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,11 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.R;
+import fb.sio.ecp.fr.federatedbirds.app.messages.MessagesAdapter;
+import fb.sio.ecp.fr.federatedbirds.app.messages.MessagesLoader;
+import fb.sio.ecp.fr.federatedbirds.app.messages.PostMessageFragment;
 import fb.sio.ecp.fr.federatedbirds.model.Message;
 
 

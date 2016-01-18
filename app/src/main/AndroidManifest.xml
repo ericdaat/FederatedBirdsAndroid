@@ -22,9 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".app.LoginActivity" />
+        <activity android:name=".app.login.LoginActivity" />
 
-        <activity android:name=".app.SettingsActivity"/>
+        <activity android:name=".app.settings.SettingsActivity"/>
 
 
     </application>

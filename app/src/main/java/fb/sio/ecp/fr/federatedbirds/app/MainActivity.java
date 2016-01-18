@@ -10,9 +10,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import fb.sio.ecp.fr.federatedbirds.R;
+import fb.sio.ecp.fr.federatedbirds.app.home.HomeFragment;
+import fb.sio.ecp.fr.federatedbirds.app.login.LoginActivity;
+import fb.sio.ecp.fr.federatedbirds.app.settings.SettingsActivity;
+import fb.sio.ecp.fr.federatedbirds.app.users.FollowedFragment;
+import fb.sio.ecp.fr.federatedbirds.app.users.FollowersFragment;
 import fb.sio.ecp.fr.federatedbirds.auth.TokenManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
                                 .replace(R.id.main_container,fragment)
                                 .commit();
                         return true;
+                    case R.id.followers:
+                        fragment = new FollowersFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container,fragment)
+                                .commit();
+                        return true;
                     case R.id.settings:
                          //If the user clicks on settings, then launch the settings activity
                         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -77,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
 
 
         if (savedInstanceState == null) {

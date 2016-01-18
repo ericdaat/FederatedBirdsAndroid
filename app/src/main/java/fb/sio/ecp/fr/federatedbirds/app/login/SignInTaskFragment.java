@@ -1,4 +1,4 @@
-package fb.sio.ecp.fr.federatedbirds.app;
+package fb.sio.ecp.fr.federatedbirds.app.login;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -15,12 +15,13 @@ import java.io.IOException;
 
 import fb.sio.ecp.fr.federatedbirds.ApiClient;
 import fb.sio.ecp.fr.federatedbirds.R;
+import fb.sio.ecp.fr.federatedbirds.app.MainActivity;
 import fb.sio.ecp.fr.federatedbirds.auth.TokenManager;
 
 /**
  * Created by Eric on 30/11/15.
  */
-public class LoginTaskFragment extends DialogFragment {
+public class SignInTaskFragment extends DialogFragment {
 
     /**
      * To avoid typos, we use two constants declared as
@@ -29,11 +30,10 @@ public class LoginTaskFragment extends DialogFragment {
     private static final String ARG_LOGIN = "login";
     private static final String ARG_PASSWORD = "password";
 
-
     public void setArguments(String login, String password) {
         Bundle args = new Bundle();
-        args.putString(LoginTaskFragment.ARG_LOGIN, login);
-        args.putString(LoginTaskFragment.ARG_PASSWORD, password);
+        args.putString(SignInTaskFragment.ARG_LOGIN, login);
+        args.putString(SignInTaskFragment.ARG_PASSWORD, password);
         setArguments(args);
     }
 
@@ -42,7 +42,7 @@ public class LoginTaskFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         AsyncTaskCompat.executeParallel(
-                new LoginTaskFragment.LoginTask()
+                new SignInTask()
         );
     }
 
@@ -55,14 +55,14 @@ public class LoginTaskFragment extends DialogFragment {
         return dialog;
     }
 
-    private class LoginTask extends AsyncTask<Void, Void, String> {
+    private class SignInTask extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... params) {
             try {
                 String login = getArguments().getString("login");
                 String password = getArguments().getString("password");
-                return ApiClient.getInstance(getContext()).login(login, password);
+                return ApiClient.getInstance(getContext()).signIn(login, password);
             } catch (IOException e) {
                 Log.e(LoginActivity.class.getSimpleName(), "Login failed", e);
                 return null;
@@ -77,6 +77,35 @@ public class LoginTaskFragment extends DialogFragment {
                 startActivity(MainActivity.newIntent(getContext()));
             } else {
                 Toast.makeText(getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
+            }
+            dismiss();
+        }
+    }
+
+    private class SignUpTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                String login = getArguments().getString("login");
+                String password = getArguments().getString("password");
+                String email = getArguments().getString("email");
+
+                return ApiClient.getInstance(getContext()).signup(login, password, email);
+            } catch (IOException e) {
+                Log.e(LoginActivity.class.getSimpleName(), "Sign Up Failed", e);
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String token) {
+            if (token != null) {
+                TokenManager.setUserToken(getContext(), token);
+                getActivity().finish();
+                startActivity(MainActivity.newIntent(getContext()));
+            } else {
+                Toast.makeText(getContext(), R.string.creation_failed, Toast.LENGTH_SHORT).show();
             }
             dismiss();
         }

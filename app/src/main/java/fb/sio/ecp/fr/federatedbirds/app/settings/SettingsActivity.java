@@ -1,4 +1,4 @@
-package fb.sio.ecp.fr.federatedbirds.app;
+package fb.sio.ecp.fr.federatedbirds.app.settings;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

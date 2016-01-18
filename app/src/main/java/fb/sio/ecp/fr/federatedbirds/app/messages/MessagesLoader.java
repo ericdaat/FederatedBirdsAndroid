@@ -1,4 +1,4 @@
-package fb.sio.ecp.fr.federatedbirds.app;
+package fb.sio.ecp.fr.federatedbirds.app.messages;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;

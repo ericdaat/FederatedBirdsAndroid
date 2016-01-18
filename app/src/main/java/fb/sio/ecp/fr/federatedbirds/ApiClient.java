@@ -1,6 +1,7 @@
 package fb.sio.ecp.fr.federatedbirds;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -94,27 +95,51 @@ public class ApiClient {
         return post("messages", message, Message.class);
     }
 
-
-    public List<User> getUserFollowed(Long userId) throws IOException {
+    public List<User> getUserFollowing(Long userId) throws IOException {
         String id = userId != null ? Long.toString(userId) : "me";
-        TypeToken<List<User>> type = new TypeToken<List<User>>() {};
-        return get("users", type.getType());
-        //return get("users/" + id + "/followed", type.getType());
+        TypeToken<UsersList> type = new TypeToken<UsersList>() {};
+        UsersList list = get("users/" + id + "/following", type.getType());
+        return list.users;
+    }
+
+    public List<User> getUserFollowers(Long userId) throws IOException {
+        String id = userId != null ? Long.toString(userId) : "me";
+        TypeToken<UsersList> type = new TypeToken<UsersList>() {};
+        UsersList list = get("users/" + id + "/followers", type.getType());
+        return list.users;
     }
 
     public User getUser(long id) throws IOException {
         return get("users/" + id, User.class);
     }
 
-    public String login(String login, String password) throws IOException {
+    public String signIn(String login, String password) throws IOException {
         /**
-         * do the login with string and password
+         * do the signIn with string and password
          * post them and return the answer that will be either the token
          * or null.
          */
         JsonObject body = new JsonObject();
         body.addProperty("login",login);
         body.addProperty("password",password);
-        return post("auth/token",body,String.class);
+        return post("auth/token", body, String.class);
+    }
+
+    public String signup(String login, String password, String email) throws IOException {
+        JsonObject body = new JsonObject();
+        body.addProperty("signIn",login);
+        body.addProperty("password",password);
+        body.addProperty("email",email);
+        return post("users",body,String.class);
+    }
+
+    public static class UsersList {
+        public final List<User> users;
+        public final String cursor;
+
+        public UsersList(List<User> users, String cursor) {
+            this.users = users;
+            this.cursor = cursor;
+        }
     }
 }

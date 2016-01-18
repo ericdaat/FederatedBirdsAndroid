@@ -1,4 +1,4 @@
-package fb.sio.ecp.fr.federatedbirds.app;
+package fb.sio.ecp.fr.federatedbirds.app.messages;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import fb.sio.ecp.fr.federatedbirds.ApiClient;
 import fb.sio.ecp.fr.federatedbirds.R;
+import fb.sio.ecp.fr.federatedbirds.app.login.LoginActivity;
 import fb.sio.ecp.fr.federatedbirds.model.Message;
 
 /**
