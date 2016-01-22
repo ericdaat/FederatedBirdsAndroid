@@ -9,9 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -44,10 +48,11 @@ public abstract class UsersFragment extends Fragment
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        RecyclerView listView = (RecyclerView) view.findViewById(R.id.followed_list);
+        RecyclerView listView = (RecyclerView) view.findViewById(R.id.users_list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         mUsersAdapter = new UsersAdapter();
         listView.setAdapter(mUsersAdapter);
+
     }
 
     @Override
@@ -64,8 +69,8 @@ public abstract class UsersFragment extends Fragment
     public abstract Loader<List<User>> onCreateLoader(int id, Bundle args);
 
     @Override
-    public void onLoadFinished(Loader<List<User>> loader, List<User> users_followed) {
-        mUsersAdapter.setUsers(users_followed);
+    public void onLoadFinished(Loader<List<User>> loader, List<User> users_list) {
+        mUsersAdapter.setUsers(users_list);
     }
 
     @Override

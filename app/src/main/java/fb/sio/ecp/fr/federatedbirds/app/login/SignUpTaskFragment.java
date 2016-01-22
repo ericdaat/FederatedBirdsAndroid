@@ -20,13 +20,13 @@ import fb.sio.ecp.fr.federatedbirds.auth.TokenManager;
 /**
  * Created by Eric on 18/01/16.
  */
-public class SignInTaskFragment extends LoginTaskFragment {
+public class SignUpTaskFragment extends LoginTaskFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AsyncTaskCompat.executeParallel(
-                new SignInTask()
+                new SignUpTask()
         );
     }
 
@@ -35,6 +35,7 @@ public class SignInTaskFragment extends LoginTaskFragment {
         Bundle args = new Bundle();
         args.putString(LoginTaskFragment.ARG_LOGIN, login);
         args.putString(LoginTaskFragment.ARG_PASSWORD, password);
+        args.putString(LoginTaskFragment.ARG_EMAIL, email);
         setArguments(args);
     }
 
@@ -43,21 +44,21 @@ public class SignInTaskFragment extends LoginTaskFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         ProgressDialog dialog = new ProgressDialog(getContext());
         dialog.setIndeterminate(true);
-        dialog.setMessage(getString(R.string.signin_progress));
+        dialog.setMessage(getString(R.string.signup_process));
         return dialog;
     }
 
-
-    private class SignInTask extends AsyncTask<Void, Void, String> {
+    private class SignUpTask extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... params) {
             try {
                 String login = getArguments().getString("login");
                 String password = getArguments().getString("password");
-                return ApiClient.getInstance(getContext()).signIn(login, password);
+                String email = getArguments().getString("email");
+                return ApiClient.getInstance(getContext()).signup(login, password, email);
             } catch (IOException e) {
-                Log.e(LoginActivity.class.getSimpleName(), "Sign In failed", e);
+                Log.e(LoginActivity.class.getSimpleName(), "Sign Up Failed", e);
                 return null;
             }
         }
@@ -69,11 +70,9 @@ public class SignInTaskFragment extends LoginTaskFragment {
                 getActivity().finish();
                 startActivity(MainActivity.newIntent(getContext()));
             } else {
-                Toast.makeText(getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.creation_failed, Toast.LENGTH_SHORT).show();
             }
             dismiss();
         }
     }
-
-
 }

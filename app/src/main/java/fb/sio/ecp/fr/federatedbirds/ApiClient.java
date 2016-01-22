@@ -127,7 +127,7 @@ public class ApiClient {
 
     public String signup(String login, String password, String email) throws IOException {
         JsonObject body = new JsonObject();
-        body.addProperty("signIn",login);
+        body.addProperty("login",login);
         body.addProperty("password",password);
         body.addProperty("email",email);
         return post("users",body,String.class);

@@ -26,6 +26,13 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getView().findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signup();
+            }
+        });
+
     }
 
     private void signup(){
@@ -50,13 +57,16 @@ public class SignUpFragment extends Fragment {
             return;
         }
 
+        /*
         if (!ValidationUtils.validateEmail(email)) {
             emailText.setError(getString(R.string.invalid_format));
             emailText.requestFocus();
             return;
         }
+        */
 
-
-
+        LoginTaskFragment taskFragment = new SignUpTaskFragment();
+        taskFragment.setArguments(login, password, email);
+        taskFragment.show(getFragmentManager(), "login_task");
     }
 }

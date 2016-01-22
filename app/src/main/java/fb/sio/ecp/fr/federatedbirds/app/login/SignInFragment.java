@@ -25,7 +25,7 @@ public class SignInFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getView().findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.signin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signin();
@@ -54,8 +54,8 @@ public class SignInFragment extends Fragment {
             return;
         }
 
-        SignInTaskFragment taskFragment = new SignInTaskFragment();
-        taskFragment.setArguments(login, password);
+        LoginTaskFragment taskFragment = new SignInTaskFragment();
+        taskFragment.setArguments(login, password, null);
         taskFragment.show(getFragmentManager(), "login_task");
 
     }

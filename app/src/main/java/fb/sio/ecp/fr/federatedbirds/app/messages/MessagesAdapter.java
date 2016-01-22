@@ -2,6 +2,7 @@ package fb.sio.ecp.fr.federatedbirds.app.messages;
 
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
          * content
          */
         Message message = mMessages.get(position);
+        //TODO : fix crash when posting a message through the app
         holder.mTextView.setText(message.text);
         Picasso
                 .with(holder.mUserAvatarView.getContext())
