@@ -1,6 +1,9 @@
 package fb.sio.ecp.fr.federatedbirds.app.users;
 
-import android.app.usage.UsageEvents;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.R;
@@ -33,7 +37,7 @@ public class UsersAdapter
     public UsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.user_item,parent,false);
+                .inflate(R.layout.user_item, parent, false);
 
         return new UsersViewHolder(v);
     }
@@ -51,7 +55,11 @@ public class UsersAdapter
         holder.mAvatarView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("debug",user.login);
+                //Launch activity here
+                Log.d("Avatar clicked", user.login);
+                Intent intent = new Intent(v.getContext(),UserDetailsActivity.class);
+                intent.putExtra("user", (Serializable) user);
+                v.getContext().startActivity(intent);
             }
         });
     }
@@ -62,14 +70,17 @@ public class UsersAdapter
     }
 
 
-    public class UsersViewHolder extends RecyclerView.ViewHolder {
+    public class UsersViewHolder extends RecyclerView.ViewHolder{
+
         private ImageView mAvatarView;
         private TextView mUserNameView;
+        private FloatingActionButton mFollowButton;
 
         public UsersViewHolder(View itemView) {
             super(itemView);
             mAvatarView = (ImageView) itemView.findViewById(R.id.avatar);
             mUserNameView = (TextView) itemView.findViewById(R.id.username);
+            mFollowButton = (FloatingActionButton) itemView.findViewById(R.id.follow);
         }
     }
 

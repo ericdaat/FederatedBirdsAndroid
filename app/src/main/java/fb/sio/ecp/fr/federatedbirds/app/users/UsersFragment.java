@@ -1,5 +1,7 @@
 package fb.sio.ecp.fr.federatedbirds.app.users;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -77,4 +79,5 @@ public abstract class UsersFragment extends Fragment
     public void onLoaderReset(Loader<List<User>> loader) {
 
     }
+
 }
