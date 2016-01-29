@@ -5,6 +5,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.ApiClient;

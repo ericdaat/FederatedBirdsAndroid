@@ -31,8 +31,8 @@ import fb.sio.ecp.fr.federatedbirds.model.Message;
 public class HomeFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<List<Message>> {
 
-    private static final int LOADER_MESSAGES = 0;
     private static final int REQUEST_POST_MESSAGE = 0;
+    private static final int LOADER_MESSAGES = 0;
 
     private MessagesAdapter mMessagesAdapter;
 

@@ -50,13 +50,18 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
          * It is used when scrolling the list and dynamically assign
          * content
          */
+
         Message message = mMessages.get(position);
-        //TODO : fix crash when posting a message through the app
+        //TODO : fix crash where messages won't load
         holder.mTextView.setText(message.text);
+
+        Log.d("test",message.user.login);
+
         Picasso
                 .with(holder.mUserAvatarView.getContext())
                 .load(message.user.avatar)
                 .into(holder.mUserAvatarView);
+
     }
 
     @Override
@@ -79,5 +84,4 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             mTextView = (TextView) itemView.findViewById(R.id.message_text);
         }
     }
-
 }
