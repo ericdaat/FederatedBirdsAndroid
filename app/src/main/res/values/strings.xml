@@ -26,4 +26,5 @@
     <string name="email">Adresse Email</string>
     <string name="creation_failed">Echec de création du compte</string>
     <string name="signup_process">Création en cours</string>
+    <string name="editavatar">Changer d\'Avatar</string>
 </resources>

@@ -133,6 +133,14 @@ public class ApiClient {
         return post("users",body,String.class);
     }
 
+    public User manageFollow(User user, boolean follow) throws IOException {
+        if (follow){
+            return post("users/" + user.id + "/follow", null, User.class);
+        } else {
+            return post("users/" + user.id + "/unfollow", null, User.class);
+        }
+    }
+
     public static class UsersList {
         public final List<User> users;
         public final String cursor;
