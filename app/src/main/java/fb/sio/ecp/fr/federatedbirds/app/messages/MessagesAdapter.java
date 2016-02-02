@@ -1,5 +1,6 @@
 package fb.sio.ecp.fr.federatedbirds.app.messages;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
@@ -11,9 +12,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fb.sio.ecp.fr.federatedbirds.R;
+import fb.sio.ecp.fr.federatedbirds.app.users.UserDetailsActivity;
 import fb.sio.ecp.fr.federatedbirds.model.Message;
 
 /**
@@ -43,7 +46,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     }
 
     @Override
-    public void onBindViewHolder(MessageViewHolder holder, int position) {
+    public void onBindViewHolder(MessageViewHolder holder, final int position) {
         /**
          * This method will assign the content of a MessageViewHolder
          * based on its position.
@@ -51,16 +54,24 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
          * content
          */
 
-        Message message = mMessages.get(position);
-        //TODO : fix crash where messages won't load
+        final Message message = mMessages.get(position);
         holder.mTextView.setText(message.text);
-
-        Log.d("test",message.user.login);
 
         Picasso
                 .with(holder.mUserAvatarView.getContext())
                 .load(message.user.avatar)
                 .into(holder.mUserAvatarView);
+
+        holder.mUserAvatarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),UserDetailsActivity.class);
+                intent.putExtra("user", (Serializable) message.user);
+                v.getContext().startActivity(intent);
+            }
+        });
+
+
 
     }
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -57,9 +58,16 @@ public class UsersAdapter
             public void onClick(View v) {
                 //Launch activity here
                 Log.d("Avatar clicked", user.login);
-                Intent intent = new Intent(v.getContext(),UserDetailsActivity.class);
+                Intent intent = new Intent(v.getContext(), UserDetailsActivity.class);
                 intent.putExtra("user", (Serializable) user);
                 v.getContext().startActivity(intent);
+            }
+        });
+
+        holder.mFollowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("follow button clicked",user.login);
             }
         });
     }

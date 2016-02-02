@@ -29,7 +29,6 @@ public class UserDetailsActivity extends AppCompatActivity
 
     private MessagesAdapter mMessagesAdapter;
     private static final int LOADER_MESSAGES = 0;
-    private static final int REQUEST_POST_MESSAGE = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

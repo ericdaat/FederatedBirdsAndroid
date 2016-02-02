@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import fb.sio.ecp.fr.federatedbirds.ApiClient;
 import fb.sio.ecp.fr.federatedbirds.R;
 import fb.sio.ecp.fr.federatedbirds.model.User;
 
@@ -54,7 +56,6 @@ public abstract class UsersFragment extends Fragment
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         mUsersAdapter = new UsersAdapter();
         listView.setAdapter(mUsersAdapter);
-
     }
 
     @Override
