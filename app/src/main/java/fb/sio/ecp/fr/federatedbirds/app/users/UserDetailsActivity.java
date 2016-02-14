@@ -1,11 +1,17 @@
 package fb.sio.ecp.fr.federatedbirds.app.users;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +26,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
+import fb.sio.ecp.fr.federatedbirds.ApiClient;
 import fb.sio.ecp.fr.federatedbirds.R;
 import fb.sio.ecp.fr.federatedbirds.app.messages.MessagesAdapter;
 import fb.sio.ecp.fr.federatedbirds.app.messages.MessagesLoader;
@@ -38,6 +47,8 @@ public class UserDetailsActivity extends AppCompatActivity
     private MessagesAdapter mMessagesAdapter;
     private static final int LOADER_MESSAGES = 0;
     private static int RESULT_LOAD_IMAGE = 1;
+    private static final int SELECT_PHOTO = 100;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,13 +92,30 @@ public class UserDetailsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.editavatar:
                 Log.d("item selected", "edit avatar");
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                picChange();
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+
+    private void picChange(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+
+        //permission for accessing gallery
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            }
         }
     }
 
@@ -95,19 +123,32 @@ public class UserDetailsActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+                    //permission problem
+                    Cursor cursor = getContentResolver().query(
+                            selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    cursor.close();
 
-            // String picturePath contains the path of selected Image
+                    Bitmap bmp = BitmapFactory.decodeFile(filePath);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+
+                    try {
+                        ApiClient.getInstance(this).postAvatar(byteArray);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
         }
     }
 

@@ -1,6 +1,7 @@
 package fb.sio.ecp.fr.federatedbirds;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -107,6 +108,10 @@ public class ApiClient {
         TypeToken<UsersList> type = new TypeToken<UsersList>() {};
         UsersList list = get("users/" + id + "/followers", type.getType());
         return list.users;
+    }
+
+    public User postAvatar (byte[] image) throws IOException {
+        return post("upload",image,byte[].class);
     }
 
     public User getUser(long id) throws IOException {
